@@ -7,6 +7,8 @@ import com.cardbookvr.renderbox.RenderBox;
 import com.cardbookvr.renderbox.Transform;
 import com.cardbookvr.renderbox.components.Cube;
 import com.cardbookvr.visualizevr.visualizations.FFTVisualization;
+import com.cardbookvr.visualizevr.visualizations.GeometricVisualization;
+import com.cardbookvr.visualizevr.visualizations.WaveformVisualization;
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.google.vrtoolkit.cardboard.CardboardView;
 
@@ -26,9 +28,9 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
         setCardboardView(cardboardView);
 
         visualizerBox = new VisualizerBox(cardboardView);
-        //visualizerBox.activeViz = new GeometricVisualization(visualizerBox);
-        //visualizerBox.activeViz = new WaveformVisualization(visualizerBox);
-        visualizerBox.activeViz = new FFTVisualization(visualizerBox);
+        visualizerBox.visualizations.add(new GeometricVisualization(visualizerBox));
+        visualizerBox.visualizations.add(new WaveformVisualization(visualizerBox));
+        visualizerBox.visualizations.add(new FFTVisualization(visualizerBox));
     }
 
     @Override

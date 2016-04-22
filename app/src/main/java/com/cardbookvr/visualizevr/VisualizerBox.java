@@ -1,5 +1,7 @@
 package com.cardbookvr.visualizevr;
 
+import android.media.audiofx.Visualizer;
+
 import com.google.vrtoolkit.cardboard.CardboardView;
 
 /**
@@ -10,7 +12,31 @@ public class VisualizerBox {
 
     public Visualization activeViz;
 
-    public VisualizerBox(final CardboardView cardboardView){
+    Visualizer visualizer;
+    public static int captureSize;
+    public static byte[] audioBytes;
+
+
+    public VisualizerBox(final CardboardView cardboardView) {
+        visualizer = new Visualizer(0);
+        captureSize = Visualizer.getCaptureSizeRange()[0];
+        visualizer.setCaptureSize(captureSize);
+
+        // capture audio data
+        Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
+            @Override
+            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+                audioBytes = bytes;
+            }
+
+            @Override
+            public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+            }
+        };
+
+        // Visualizer.OnDataCaptureListener captureListener = ...
+        visualizer.setDataCaptureListener(captureListener, Visualizer.getMaxCaptureRate(), true, true);
+        visualizer.setEnabled(true);
     }
 
     public void setup() {

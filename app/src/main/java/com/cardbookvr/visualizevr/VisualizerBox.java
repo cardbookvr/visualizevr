@@ -22,10 +22,20 @@ public class VisualizerBox {
     public static byte[] audioBytes;
     public static int audioTexture = -1;
 
+    public static byte[] fftBytes, fftNorm;
+    public static float[] fftPrep;
+    public static int fftTexture = -1;
+
+    final float MIN_THRESHOLD = 1.5f;
+
+
     public VisualizerBox(final CardboardView cardboardView) {
         visualizer = new Visualizer(0);
         captureSize = Visualizer.getCaptureSizeRange()[0];
         visualizer.setCaptureSize(captureSize);
+
+        fftPrep = new float[captureSize / 2];
+        fftNorm = new byte[captureSize / 2];
 
         // capture audio data
         Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
@@ -37,7 +47,27 @@ public class VisualizerBox {
 
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] bytes, int samplingRate) {
+                fftBytes = bytes;
+                float max = 0;
+                for (int i = 0; i < fftPrep.length; i++) {
+                    if (fftBytes.length > i * 2) {
+                        fftPrep[i] = (float) Math.sqrt(fftBytes[i * 2] * fftBytes[i * 2] +
+                                fftBytes[i * 2 + 1] * fftBytes[i * 2 + 1]);
+                        if (fftPrep[i] > max) {
+                            max = fftPrep[i];
+                        }
+                    }
+                }
+                float coeff = 1 / max;
+                for (int i = 0; i < fftPrep.length; i++) {
+                    if (fftPrep[i] < MIN_THRESHOLD) {
+                        fftPrep[i] = 0;
+                    }
+                    fftNorm[i] = (byte) (fftPrep[i] * coeff * 255);
+                }
+                loadTexture(cardboardView, fftTexture, fftNorm);
             }
+
         };
 
         // Visualizer.OnDataCaptureListener captureListener = ...
@@ -47,6 +77,7 @@ public class VisualizerBox {
 
     public void setup() {
         audioTexture = genTexture();
+        fftTexture = genTexture();
         if(activeViz != null)
             activeViz.setup();
     }

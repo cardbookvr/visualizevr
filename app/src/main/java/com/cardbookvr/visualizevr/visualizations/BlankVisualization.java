@@ -25,4 +25,8 @@ public class BlankVisualization extends Visualization {
     public void postDraw() {
     }
 
+    @Override
+    public void activate(boolean enabled) {
+        active = enabled;
+    }
 }

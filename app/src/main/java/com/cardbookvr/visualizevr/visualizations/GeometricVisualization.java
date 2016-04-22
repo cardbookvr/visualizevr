@@ -45,4 +45,12 @@ public class GeometricVisualization extends Visualization {
     public void postDraw() {
     }
 
+    @Override
+    public void activate(boolean enabled) {
+        active = enabled;
+        for (int i = 0; i < cubes.length; i++) {
+            cubeRenderers[i].enabled = enabled;
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.cardbookvr.renderbox.IRenderBox;
 import com.cardbookvr.renderbox.RenderBox;
+import com.cardbookvr.renderbox.Time;
 import com.cardbookvr.renderbox.Transform;
 import com.cardbookvr.renderbox.components.Cube;
 import com.cardbookvr.visualizevr.visualizations.FFTVisualization;
@@ -12,11 +13,18 @@ import com.cardbookvr.visualizevr.visualizations.WaveformVisualization;
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.google.vrtoolkit.cardboard.CardboardView;
 
+import java.util.Random;
+
 public class MainActivity extends CardboardActivity implements IRenderBox {
     private static final String TAG = "MainActivity";
     CardboardView cardboardView;
 
     VisualizerBox visualizerBox;
+
+    float timeToChange = 0f;
+    final float CHANGE_DELAY = 3f;
+    final Random rand = new Random();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +49,21 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
                 .addComponent(new Cube(true));
         visualizerBox.setup();
         RenderBox.mainCamera.trailsMode = true;
+
+        for (Visualization viz : visualizerBox.visualizations) {
+            viz.activate(false);
+        }
     }
 
     @Override
     public void preDraw() {
+        if (Time.getTime() > timeToChange) {
+            int idx = rand.nextInt(visualizerBox.visualizations.size() );
+            Visualization viz = visualizerBox.visualizations.get(idx);
+            viz.activate(!viz.active);
+            timeToChange += CHANGE_DELAY;
+        }
+
         visualizerBox.preDraw();
     }
 

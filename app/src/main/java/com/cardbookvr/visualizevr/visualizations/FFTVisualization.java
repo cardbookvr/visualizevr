@@ -37,4 +37,11 @@ public class FFTVisualization extends Visualization {
     @Override
     public void postDraw() {
     }
+
+    @Override
+    public void activate(boolean enabled) {
+        active = enabled;
+        plane.enabled = enabled;
+    }
+
 }

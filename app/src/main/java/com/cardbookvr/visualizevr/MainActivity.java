@@ -38,6 +38,7 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
                 .setLocalRotation(45,60,0)
                 .addComponent(new Cube(true));
         visualizerBox.setup();
+        RenderBox.mainCamera.trailsMode = true;
     }
 
     @Override

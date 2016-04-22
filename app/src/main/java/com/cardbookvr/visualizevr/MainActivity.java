@@ -13,6 +13,8 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
     private static final String TAG = "MainActivity";
     CardboardView cardboardView;
 
+    VisualizerBox visualizerBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,8 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
         cardboardView = (CardboardView) findViewById(R.id.cardboard_view);
         cardboardView.setRenderer(new RenderBox(this, this));
         setCardboardView(cardboardView);
+
+        visualizerBox = new VisualizerBox(cardboardView);
     }
 
     @Override
@@ -29,15 +33,16 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
                 .setLocalPosition(0,0,-7)
                 .setLocalRotation(45,60,0)
                 .addComponent(new Cube(true));
+        visualizerBox.setup();
     }
 
     @Override
     public void preDraw() {
-
+        visualizerBox.preDraw();
     }
 
     @Override
     public void postDraw() {
-
+        visualizerBox.postDraw();
     }
 }

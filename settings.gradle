@@ -1,1 +1,1 @@
-include ':app', ':renderbox', ':common', ':core'
+include ':app', ':renderbox', ':common', ':base'

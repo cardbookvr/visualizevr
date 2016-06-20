@@ -4,7 +4,7 @@ import android.media.audiofx.Visualizer;
 import android.opengl.GLES20;
 
 import com.cardbookvr.renderbox.RenderBox;
-import com.google.vrtoolkit.cardboard.CardboardView;
+import com.google.vr.sdk.base.GvrView;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -31,7 +31,7 @@ public class VisualizerBox {
     final float MIN_THRESHOLD = 1.5f;
 
 
-    public VisualizerBox(final CardboardView cardboardView) {
+    public VisualizerBox(final GvrView cardboardView) {
         visualizer = new Visualizer(0);
         captureSize = Visualizer.getCaptureSizeRange()[0];
         visualizer.setCaptureSize(captureSize);
@@ -114,7 +114,7 @@ public class VisualizerBox {
         return textureHandle[0];
     }
 
-    public static void loadTexture(CardboardView cardboardView, final int textureId, byte[] bytes) {
+    public static void loadTexture(GvrView cardboardView, final int textureId, byte[] bytes) {
         if (textureId < 0)
             return;
         final ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length * 4);

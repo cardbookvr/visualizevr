@@ -10,14 +10,14 @@ import com.cardbookvr.renderbox.components.Cube;
 import com.cardbookvr.visualizevr.visualizations.FFTVisualization;
 import com.cardbookvr.visualizevr.visualizations.GeometricVisualization;
 import com.cardbookvr.visualizevr.visualizations.WaveformVisualization;
-import com.google.vrtoolkit.cardboard.CardboardActivity;
-import com.google.vrtoolkit.cardboard.CardboardView;
+import com.google.vr.sdk.base.GvrActivity;
+import com.google.vr.sdk.base.GvrView;
 
 import java.util.Random;
 
-public class MainActivity extends CardboardActivity implements IRenderBox {
+public class MainActivity extends GvrActivity implements IRenderBox {
     private static final String TAG = "MainActivity";
-    CardboardView cardboardView;
+    GvrView gvrView;
 
     VisualizerBox visualizerBox;
 
@@ -31,11 +31,11 @@ public class MainActivity extends CardboardActivity implements IRenderBox {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cardboardView = (CardboardView) findViewById(R.id.cardboard_view);
-        cardboardView.setRenderer(new RenderBox(this, this));
-        setCardboardView(cardboardView);
+        gvrView = (GvrView) findViewById(R.id.gvr_view);
+        gvrView.setRenderer(new RenderBox(this, this));
+        setGvrView(gvrView);
 
-        visualizerBox = new VisualizerBox(cardboardView);
+        visualizerBox = new VisualizerBox(gvrView);
         visualizerBox.visualizations.add(new GeometricVisualization(visualizerBox));
         visualizerBox.visualizations.add(new WaveformVisualization(visualizerBox));
         visualizerBox.visualizations.add(new FFTVisualization(visualizerBox));
